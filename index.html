@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="RaidSight turns your World of Warcraft gameplay into clear, actionable coaching." />
+    <title>RaidSight — better pulls, one review at a time</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23e6a34b'/%3E%3Cpath d='M9 22 16 7l7 15-7-4-7 4Z' fill='%2311161c'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="RaidSight home"><span class="brand-mark">✦</span><span>RaidSight</span></a>
+        <nav><a class="active" href="#review">Review</a><a href="#how-it-works">How it works</a><a href="#history">History</a></nav>
+        <button class="avatar" aria-label="Open profile">AM</button>
+      </header>
+
+      <main id="top">
+        <section class="intro" id="review">
+          <div>
+            <p class="eyebrow"><span class="live-dot"></span> PERSONAL RAID COACH</p>
+            <h1>Turn every pull<br /><em>into progress.</em></h1>
+            <p class="lede">Upload a raid or dungeon recording and get a clear, timestamped breakdown of what happened, why it mattered, and what to try next.</p>
+          </div>
+          <div class="session-note"><span>✦</span><div><strong>New review</strong><small>Usually ready in 3–8 minutes</small></div></div>
+        </section>
+
+        <section class="workspace-grid">
+          <div class="upload-panel panel">
+            <div class="panel-heading"><div><span class="step">01</span><h2>Choose a recording</h2></div><span class="format-note">MP4 · MOV · WEBM</span></div>
+            <label class="dropzone" id="dropzone" for="video-input">
+              <input id="video-input" type="file" accept="video/mp4,video/quicktime,video/webm" />
+              <div class="upload-icon">↥</div><strong id="upload-title">Drop your video here</strong><span id="upload-copy">or click to browse from your computer</span><span class="upload-limit">Max 2 GB · Keep your game audio on</span>
+            </label>
+            <div class="url-row"><span class="link-icon">↗</span><input id="log-url" type="url" placeholder="Optional: paste a Warcraft Logs URL" /><button id="link-button">Add log</button></div>
+            <button class="primary-button" id="analyze-button" disabled><span>Analyze my run</span><span>→</span></button>
+            <p class="privacy"><span>◈</span> Your recordings are private and automatically deleted after 30 days.</p>
+          </div>
+
+          <aside class="side-panel">
+            <div class="signal-card panel"><div class="card-label">WHAT YOU’LL GET</div><div class="signal-main"><span class="signal-icon">◒</span><strong>Useful feedback,<br />not a score dump.</strong></div><div class="signal-line"></div><div class="mini-stat"><span>01</span><div><b>Spot the pattern</b><small>Find the moments that cost you most.</small></div></div><div class="mini-stat"><span>02</span><div><b>See the why</b><small>Short explanations tied to your footage.</small></div></div><div class="mini-stat"><span>03</span><div><b>Know what to try</b><small>One practical focus for your next pull.</small></div></div></div>
+            <div class="quote-card"><span class="quote-mark">“</span><p>The best review is the one you can actually use on the next pull.</p><span class="quote-by">— RaidSight coaching notes</span></div>
+          </aside>
+        </section>
+
+        <section class="results panel" id="history" aria-live="polite">
+          <div class="results-header"><div><p class="eyebrow">LATEST REVIEW <span class="status-pill">SAMPLE REPORT</span></p><h2>Heroic Nerub-ar Palace · Anub’arash</h2></div><span class="duration">08:42 <small>run length</small></span></div>
+          <div class="result-body"><div class="score-block"><span class="score-label">REVIEW SNAPSHOT</span><strong>3</strong><span>high-impact moments</span><div class="score-rule"><i></i><i></i><i></i><i class="muted"></i><i class="muted"></i></div><small>Enough to change your next pull.</small></div><div class="timeline"><div class="timeline-item"><span class="time">02:14</span><div class="marker amber"></div><div><b>Defensive came one GCD late</b><p>Use <strong>Feint</strong> just before the web volley. You had it available and avoided 18% less damage than your previous pull.</p><span class="tag">SURVIVABILITY</span></div></div><div class="timeline-item"><span class="time">04:51</span><div class="marker red"></div><div><b>Lost uptime during the add wave</b><p>There was a 4.6s gap between attacks while the boss was in range. Pre-position, then keep your next builder rolling.</p><span class="tag">UPTIME</span></div></div><div class="timeline-item"><span class="time">07:33</span><div class="marker blue"></div><div><b>Clean response to the frontal</b><p>Great step-out and immediate return. This is exactly the movement pattern to repeat.</p><span class="tag positive">GOOD HABIT</span></div></div></div></div>
+        </section>
+      </main>
+      <footer><span>RAIDSIGHT / PRIVATE GAMEPLAY COACHING</span><span>Built for the next pull.</span></footer>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
