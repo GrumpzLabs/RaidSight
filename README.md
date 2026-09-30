@@ -19,3 +19,7 @@ The current analyzer returns a sample report after the upload job completes. The
 ## Run locally
 
 Run `npm start`, then open `http://localhost:3000`. Uploads are stored in the local `uploads/` directory, which is ignored from source control.
+
+## Warcraft Logs setup
+
+Create a Warcraft Logs API client, copy `.env.example` to `.env`, and fill in the client ID and secret. Then start the server with those environment variables loaded. The current integration validates the report URL and fetches real report metadata through the public v2 GraphQL API. Detailed player coaching findings will be added next from the report event streams.

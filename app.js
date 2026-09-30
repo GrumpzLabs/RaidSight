@@ -66,6 +66,12 @@ analyze.addEventListener('click', async () => {
         showToast('Your review is ready below.');
         return;
       }
+      if (job.status === 'error') {
+        analyze.disabled = false;
+        analyze.querySelector('span').textContent = 'Analyze my run';
+        showToast(job.error);
+        return;
+      }
       setTimeout(poll, 500);
     };
     poll();

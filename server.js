@@ -2,6 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const { fetchReport, buildReport } = require('./wcl');
 
 const ROOT = __dirname;
 const UPLOADS = path.join(ROOT, 'uploads');
@@ -68,7 +69,15 @@ const server = http.createServer((req, res) => {
       const extension = path.extname(video.filename) || '.video';
       fs.writeFileSync(path.join(UPLOADS, `${id}${extension}`), video.content);
       jobs.set(id, { id, status: 'processing', filename: video.filename, logUrl, createdAt: Date.now() });
-      setTimeout(() => jobs.set(id, { ...jobs.get(id), status: 'complete', report }), 1800);
+      setTimeout(async () => {
+        try {
+          if (!logUrl) throw new Error('Add a Warcraft Logs URL to generate an actual review.');
+          const log = await fetchReport(logUrl);
+          jobs.set(id, { ...jobs.get(id), status: 'complete', report: buildReport(log) });
+        } catch (error) {
+          jobs.set(id, { ...jobs.get(id), status: 'error', error: error.message });
+        }
+      }, 250);
       return send(res, 202, { id, status: 'processing' });
     });
     return;
