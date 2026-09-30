@@ -4,6 +4,24 @@ const title = document.querySelector('#upload-title');
 const copy = document.querySelector('#upload-copy');
 const analyze = document.querySelector('#analyze-button');
 const toast = document.querySelector('#toast');
+const results = document.querySelector('#history');
+
+function renderReport(job) {
+  const data = job.report;
+  results.querySelector('.eyebrow').innerHTML = `LATEST REVIEW <span class="status-pill">JUST ANALYZED</span>`;
+  results.querySelector('h2').textContent = data.encounter;
+  results.querySelector('.duration').innerHTML = `${data.duration} <small>run length</small>`;
+  results.querySelector('.score-block strong').textContent = data.highImpactMoments;
+  results.querySelector('.score-block > span:not(.score-label)').textContent = 'high-impact moments';
+  const timeline = results.querySelector('.timeline');
+  timeline.innerHTML = data.findings.map(item => `
+    <div class="timeline-item">
+      <span class="time">${item.timestamp}</span>
+      <div class="marker ${item.tone}"></div>
+      <div><b>${item.title}</b><p>${item.explanation}</p><span class="tag ${item.category === 'GOOD HABIT' ? 'positive' : ''}">${item.category}</span></div>
+    </div>`).join('');
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
 function selectFile(file) {
   if (!file) return;
@@ -42,8 +60,10 @@ analyze.addEventListener('click', async () => {
     const poll = async () => {
       const job = await fetch(`/api/reviews/${created.id}`).then(r => r.json());
       if (job.status === 'complete') {
+        renderReport(job);
         analyze.querySelector('span').textContent = 'Review ready';
-        showToast('Your review is ready. Report rendering is next.');
+        analyze.disabled = false;
+        showToast('Your review is ready below.');
         return;
       }
       setTimeout(poll, 500);
