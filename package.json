@@ -1,0 +1,7 @@
+{
+  "name": "raidsight",
+  "version": "0.1.0",
+  "private": true,
+  "description": "World of Warcraft gameplay coaching prototype",
+  "scripts": { "start": "node server.js" }
+}

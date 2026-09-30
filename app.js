@@ -27,9 +27,31 @@ document.querySelector('#link-button').addEventListener('click', () => {
   if (!value) return showToast('Paste a Warcraft Logs URL first.');
   showToast('Log linked. Add a recording to start the review.');
 });
-analyze.addEventListener('click', () => {
+analyze.addEventListener('click', async () => {
+  const file = input.files[0];
+  if (!file) return showToast('Choose a recording first.');
   analyze.disabled = true;
-  analyze.querySelector('span').textContent = 'Preparing your review…';
-  showToast('Upload flow ready — processing will connect here next.');
-  setTimeout(() => { analyze.disabled = false; analyze.querySelector('span').textContent = 'Analyze my run'; }, 2200);
+  analyze.querySelector('span').textContent = 'Uploading your run…';
+  const body = new FormData();
+  body.append('video', file);
+  body.append('logUrl', document.querySelector('#log-url').value.trim());
+  try {
+    const created = await fetch('/api/reviews', { method: 'POST', body }).then(r => r.json());
+    if (!created.id) throw new Error(created.error || 'Upload failed');
+    analyze.querySelector('span').textContent = 'Analyzing your run…';
+    const poll = async () => {
+      const job = await fetch(`/api/reviews/${created.id}`).then(r => r.json());
+      if (job.status === 'complete') {
+        analyze.querySelector('span').textContent = 'Review ready';
+        showToast('Your review is ready. Report rendering is next.');
+        return;
+      }
+      setTimeout(poll, 500);
+    };
+    poll();
+  } catch (error) {
+    analyze.disabled = false;
+    analyze.querySelector('span').textContent = 'Analyze my run';
+    showToast(error.message);
+  }
 });
